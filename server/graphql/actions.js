@@ -5,7 +5,8 @@ import items from './store';
 
 const actions = {
 
-  listItems(includeCompleted = false) {
+  listItems(data) {
+    const {includeCompleted = false} = data;
     return includeCompleted ? items : items.filter(i => !i.completed)
   },
 
@@ -19,8 +20,8 @@ const actions = {
 
   addItem(itemData) {
     const maxId = Math.max(...items.map(i => i.id));
-    const newItem = {id: maxId + 1, title: title, completed: false};
-    list.items.push(newItem);
+    const newItem = {id: maxId + 1, completed: false, ...itemData};
+    items.push(newItem);
     return newItem;
   }
 

@@ -12,7 +12,7 @@ const todoItemType = objectType('TodoItemType')
 const queryType = objectType('QueryRoot')
   .field('items', listOf(todoItemType))
     .arg('includeCompleted', GraphQLBoolean)
-    .resolve((root, {includeCompleted}) => actions.listItems(includeCompleted))
+    .resolve((root, data) => actions.listItems(data))
   .end();
 
 const mutationType = objectType('MutationRoot')
