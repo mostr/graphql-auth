@@ -1,6 +1,7 @@
 import { graphql, GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
 import { objectType, schemaFrom, listOf, notNull } from 'graphql-schema';
 
+import {doAsAuthenticatedUser} from './auth';
 import actions from './actions';
 
 const todoItemType = objectType('TodoItemType')
@@ -12,16 +13,16 @@ const todoItemType = objectType('TodoItemType')
 const queryType = objectType('QueryRoot')
   .field('items', listOf(todoItemType))
     .arg('includeCompleted', GraphQLBoolean)
-    .resolve((root, data) => actions.listItems(data))
+    .resolve((root, data, context) => doAsAuthenticatedUser(context.authToken, user => actions.listItems(data)))
   .end();
 
 const mutationType = objectType('MutationRoot')
   .field('markItemAsCompleted', todoItemType)
     .arg('itemId', notNull(GraphQLInt))
-    .resolve((root, {itemId})  => actions.markItemAsCompleted(itemId))
+    .resolve((root, {itemId}, context) => doAsAuthenticatedUser(context.authToken, user => actions.markItemAsCompleted(itemId)))
   .field('addItem', todoItemType)
     .arg('title', notNull(GraphQLString))
-    .resolve((root, itemData) => actions.addItem(itemData))
+    .resolve((root, itemData, context) => doAsAuthenticatedUser(context.authToken, user => actions.addItem(itemData)))
   .end();
 
 export default schemaFrom(queryType, mutationType);
