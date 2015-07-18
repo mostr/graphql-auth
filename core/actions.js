@@ -15,7 +15,7 @@ const actions = {
     auth.haltOnMissingRole(user, 'write');
     return Option(items.find(i => i.id === itemId))
       .map(i => {
-        i.completed = true
+        i.completed = true;
         return i;
       }).getOrElse(() => { throw new Error(`Could not find todo item ${itemId}`) } )
   },
