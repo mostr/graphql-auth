@@ -1,6 +1,8 @@
-## Authentication and authorization in GraphQL 
+## Authentication and authorization in GraphQL-based apps 
 
 One approach to authenticate and authorize actions in GraphQL-based servers built using GraphQL reference implementation. 
+
+___GraphQL itself is authentication/authorization-agnostic, you can use anything you want to do this auth-part of your app. This repo just demonstrates how to work with already authenticated users on GraphQL-level operations___
 
 As for the use case this is simple todo list, nothing fancy.
 
